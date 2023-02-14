@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/stream_1.js"></script>
+        <script src="data/transportation_2.js"></script>
+        <script src="data/amphoe_3.js"></script>
+        <script src="data/village_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+        function pop_stream_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LENGTH'] !== null ? autolinker.link(feature.properties['LENGTH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_ID'] !== null ? autolinker.link(feature.properties['STR_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_NAM_T'] !== null ? autolinker.link(feature.properties['STR_NAM_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_NAM_E'] !== null ? autolinker.link(feature.properties['STR_NAM_E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LOCAL_NAM'] !== null ? autolinker.link(feature.properties['LOCAL_NAM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_TYPE'] !== null ? autolinker.link(feature.properties['STR_TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_stream_1_0() {
+            return {
+                pane: 'pane_stream_1',
+                opacity: 1,
+                color: 'rgba(225,89,137,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_stream_1');
+        map.getPane('pane_stream_1').style.zIndex = 401;
+        map.getPane('pane_stream_1').style['mix-blend-mode'] = 'normal';
+        var layer_stream_1 = new L.geoJson(json_stream_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_stream_1',
+            layerName: 'layer_stream_1',
+            pane: 'pane_stream_1',
+            onEachFeature: pop_stream_1,
+            style: style_stream_1_0,
+        });
+        bounds_group.addLayer(layer_stream_1);
+        map.addLayer(layer_stream_1);
+        function pop_transportation_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LENGTH'] !== null ? autolinker.link(feature.properties['LENGTH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRANS_TYP'] !== null ? autolinker.link(feature.properties['TRANS_TYP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TYP_T'] !== null ? autolinker.link(feature.properties['TYP_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_T'] !== null ? autolinker.link(feature.properties['NAME_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_E'] !== null ? autolinker.link(feature.properties['NAME_E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TranNo'] !== null ? autolinker.link(feature.properties['TranNo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TranTyp_n'] !== null ? autolinker.link(feature.properties['TranTyp_n'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_transportation_2_0() {
+            return {
+                pane: 'pane_transportation_2',
+                opacity: 1,
+                color: 'rgba(164,113,88,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_transportation_2');
+        map.getPane('pane_transportation_2').style.zIndex = 402;
+        map.getPane('pane_transportation_2').style['mix-blend-mode'] = 'normal';
+        var layer_transportation_2 = new L.geoJson(json_transportation_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_transportation_2',
+            layerName: 'layer_transportation_2',
+            pane: 'pane_transportation_2',
+            onEachFeature: pop_transportation_2,
+            style: style_transportation_2_0,
+        });
+        bounds_group.addLayer(layer_transportation_2);
+        map.addLayer(layer_transportation_2);
+        function pop_amphoe_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">AREA</th>\
+                        <td>' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AMP_CODE'] !== null ? autolinker.link(feature.properties['AMP_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AMP_NAM_T'] !== null ? autolinker.link(feature.properties['AMP_NAM_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AMP_NAM_E'] !== null ? autolinker.link(feature.properties['AMP_NAM_E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROV_CODE'] !== null ? autolinker.link(feature.properties['PROV_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['strata'] !== null ? autolinker.link(feature.properties['strata'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_amphoe_3_0() {
+            return {
+                pane: 'pane_amphoe_3',
+                opacity: 1,
+                color: 'rgba(1,2,2,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_amphoe_3');
+        map.getPane('pane_amphoe_3').style.zIndex = 403;
+        map.getPane('pane_amphoe_3').style['mix-blend-mode'] = 'normal';
+        var layer_amphoe_3 = new L.geoJson(json_amphoe_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_amphoe_3',
+            layerName: 'layer_amphoe_3',
+            pane: 'pane_amphoe_3',
+            onEachFeature: pop_amphoe_3,
+            style: style_amphoe_3_0,
+        });
+        bounds_group.addLayer(layer_amphoe_3);
+        map.addLayer(layer_amphoe_3);
+        function pop_village_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NRD_CODE'] !== null ? autolinker.link(feature.properties['NRD_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VILL_CODE'] !== null ? autolinker.link(feature.properties['VILL_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VILL_NAM_T'] !== null ? autolinker.link(feature.properties['VILL_NAM_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROV_CODE'] !== null ? autolinker.link(feature.properties['PROV_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AMP_CODE'] !== null ? autolinker.link(feature.properties['AMP_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TAM_CODE'] !== null ? autolinker.link(feature.properties['TAM_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_village_4_0() {
+            return {
+                pane: 'pane_village_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(196,60,57,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_village_4');
+        map.getPane('pane_village_4').style.zIndex = 404;
+        map.getPane('pane_village_4').style['mix-blend-mode'] = 'normal';
+        var layer_village_4 = new L.geoJson(json_village_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_village_4',
+            layerName: 'layer_village_4',
+            pane: 'pane_village_4',
+            onEachFeature: pop_village_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_village_4_0(feature));
+            },
+        });
+        var cluster_village_4 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_village_4.addLayer(layer_village_4);
+
+        bounds_group.addLayer(layer_village_4);
+        cluster_village_4.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/village_4.png" /> village': cluster_village_4,'<img src="legend/amphoe_3.png" /> amphoe': layer_amphoe_3,'<img src="legend/transportation_2.png" /> transportation': layer_transportation_2,'<img src="legend/stream_1.png" /> stream': layer_stream_1,"Google Satellite": layer_GoogleSatellite_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_amphoe_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['AMP_NAM_T'] !== null?String('<div style="color: #010001; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['AMP_NAM_T']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_amphoe_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"STR_NAM_E": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_amphoe_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['AMP_NAM_T'] !== null?String('<div style="color: #010001; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['AMP_NAM_T']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_amphoe_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_STR_NAM_E = document.createElement('div');
+            div_STR_NAM_E.id = "div_STR_NAM_E";
+            div_STR_NAM_E.className= "filterselect";
+            document.getElementById("menu").appendChild(div_STR_NAM_E);
+            sel_STR_NAM_E = document.createElement('select');
+            sel_STR_NAM_E.multiple = true;
+            sel_STR_NAM_E.size = 10;
+            sel_STR_NAM_E.id = "sel_STR_NAM_E";
+            var STR_NAM_E_options_str = "<option value='' unselected></option>";
+            sel_STR_NAM_E.onchange = function(){filterFunc()};
+            STR_NAM_E_options_str  += '<option value="NULL">NULL</option>';
+            STR_NAM_E_options_str  += '<option value="Huai  Pha Lat">Huai  Pha Lat</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Bang Khuan">Huai Bang Khuan</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Bung">Huai Bung</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Chorakhe">Huai Chorakhe</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Chum Phuk">Huai Chum Phuk</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Dong Moei">Huai Dong Moei</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Dua Noi">Huai Dua Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Hin Lat">Huai Hin Lat</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Hoen">Huai Hoen</option>';
+            STR_NAM_E_options_str  += '<option value="Huai I Pum">Huai I Pum</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Khan Laeng">Huai Khan Laeng</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Kok">Huai Kok</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Kok Noi">Huai Kok Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Kok Yai">Huai Kok Yai</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Kop">Huai Kop</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Kum">Huai Kum</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Lam Kradon">Huai Lam Kradon</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Lan Tha Chang">Huai Lan Tha Chang</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Lan Tha chang">Huai Lan Tha chang</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Lao Laeng">Huai Lao Laeng</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Luang Yai">Huai Luang Yai</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Mae Luk On">Huai Mae Luk On</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Na Saeng">Huai Na Saeng</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Chon">Huai Nam Chon</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Daeng">Huai Nam Daeng</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Khek Noi">Huai Nam Khek Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Khlung">Huai Nam Khlung</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Pla">Huai Nam Pla</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Poi Noi">Huai Nam Poi Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Poi Yai">Huai Nam Poi Yai</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Nam Thong Yai">Huai Nam Thong Yai</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Ngo Ngae">Huai Ngo Ngae</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Olo">Huai Olo</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Pa Kha">Huai Pa Kha</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Pa Toei">Huai Pa Toei</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Pha Yai">Huai Pha Yai</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Phrik Khing">Huai Phrik Khing</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Pla Nao">Huai Pla Nao</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Raboei">Huai Raboei</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Sak">Huai Sak</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Some Noi">Huai Some Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Tham">Huai Tham</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Um Sing">Huai Um Sing</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Yaeng">Huai Yaeng</option>';
+            STR_NAM_E_options_str  += '<option value="Huai Yok Krabat">Huai Yok Krabat</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong">Khlong</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong  Chan">Khlong  Chan</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong  Phai Long">Khlong  Phai Long</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Ai Luak">Khlong Ai Luak</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Ai Men">Khlong Ai Men</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Ban Mung">Khlong Ban Mung</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Bang Krathum">Khlong Bang Krathum</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Bung Khrop">Khlong Bung Khrop</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Chac Loi">Khlong Chac Loi</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Chaliong">Khlong Chaliong</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Chik">Khlong Chik</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Chorakhe">Khlong Chorakhe</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Dang">Khlong Dang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Dong Chan">Khlong Dong Chan</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Faep">Khlong Faep</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Fai">Khlong Fai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Hang Ka">Khlong Hang Ka</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Huai Khayaeng">Khlong Huai Khayaeng</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong I Knot I Ngo">Khlong I Knot I Ngo</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong I Ong">Khlong I Ong</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong I Wai">Khlong I Wai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Inthanin">Khlong Inthanin</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khak Khim">Khlong Khak Khim</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khek">Khlong Khek</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khlang">Khlong Khlang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khok Chang">Khlong Khok Chang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khonthi">Khlong Khonthi</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khu">Khlong Khu</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Khwang">Khlong Khwang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Kluk Klak">Khlong Kluk Klak</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Kluk Klank">Khlong Kluk Klank</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Krong Kreng">Khlong Krong Kreng</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Lakhon">Khlong Lakhon</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Lam Manang">Khlong Lam Manang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Lam Mani">Khlong Lam Mani</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Lam Nong Bot">Khlong Lam Nong Bot</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Lan Ba">Khlong Lan Ba</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Mae Liap">Khlong Mae Liap</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Mae Raka">Khlong Mae Raka</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Mae Thap">Khlong Mae Thap</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Mae Thiap">Khlong Mae Thiap</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Mai Luang">Khlong Mai Luang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Mem">Khlong Mem</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Muang">Khlong Muang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Na Pong">Khlong Na Pong</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nae">Khlong Nae</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nam Fio">Khlong Nam Fio</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nam Yen">Khlong Nam Yen</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nam pat">Khlong Nam pat</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nong Kham">Khlong Nong Kham</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nong Krathum">Khlong Nong Krathum</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nong Tham">Khlong Nong Tham</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Nong Thong">Khlong Nong Thong</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Pak Nam">Khlong Pak Nam</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Pak Pao">Khlong Pak Pao</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Pet">Khlong Pet</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Phaeng Phuai">Khlong Phaeng Phuai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Phai Lom">Khlong Phai Lom</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Phai Rao">Khlong Phai Rao</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Phai Si Suk">Khlong Phai Si Suk</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Phan Cho">Khlong Phan Cho</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Pong Kha">Khlong Pong Kha</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Rae">Khlong Rae</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Rang Chik">Khlong Rang Chik</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Sa Khlo">Khlong Sa Khlo</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Sai">Khlong Sai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Sai Yoi">Khlong Sai Yoi</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Salu">Khlong Salu</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Sanam Bung">Khlong Sanam Bung</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Saphan Si">Khlong Saphan Si</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Saraphi">Khlong Saraphi</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Ta Kuai">Khlong Ta Kuai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Ta Nun">Khlong Ta Nun</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Ta Phung">Khlong Ta Phung</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Taeng Kwa">Khlong Taeng Kwa</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Tak Daet">Khlong Tak Daet</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Takhian">Khlong Takhian</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Takhian Ngam">Khlong Takhian Ngam</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Tha Luang">Khlong Tha Luang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Tha Na">Khlong Tha Na</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Thap Sai">Khlong Thap Sai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Thung Du">Khlong Thung Du</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong To Rua">Khlong To Rua</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Wang Kaen">Khlong Wang Kaen</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Wang Thong">Khlong Wang Thong</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Wat">Khlong Wat</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Wat Ta Yom">Khlong Wat Ta Yom</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Wong Phat">Khlong Wong Phat</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Yang">Khlong Yang</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Yang Kradai">Khlong Yang Kradai</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Yang Ton">Khlong Yang Ton</option>';
+            STR_NAM_E_options_str  += '<option value="Khlong Yao">Khlong Yao</option>';
+            STR_NAM_E_options_str  += '<option value="KhlongPak Lat">KhlongPak Lat</option>';
+            STR_NAM_E_options_str  += '<option value="KhlongTham Tao">KhlongTham Tao</option>';
+            STR_NAM_E_options_str  += '<option value="Klong Bung Chang">Klong Bung Chang</option>';
+            STR_NAM_E_options_str  += '<option value="Lai Tha Kham">Lai Tha Kham</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Huai Khun">Lam Huai Khun</option>';
+            STR_NAM_E_options_str  += '<option value="Lam I Khot">Lam I Khot</option>';
+            STR_NAM_E_options_str  += '<option value="Lam I On">Lam I On</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Kham">Lam Kham</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Klang">Lam Klang</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Mai Dang">Lam Mai Dang</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Nam Khwae Noi">Lam Nam Khwae Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Nong Kham">Lam Nong Kham</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Nong Lam O">Lam Nong Lam O</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Nong Phai">Lam Nong Phai</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Nong Saeng">Lam Nong Saeng</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Pak Krathin">Lam Pak Krathin</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Tha Ko">Lam Tha Ko</option>';
+            STR_NAM_E_options_str  += '<option value="Lam Thong Dam">Lam Thong Dam</option>';
+            STR_NAM_E_options_str  += '<option value="Lum  Ta Dang">Lum  Ta Dang</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Ban Thaeo">Lum Ban Thaeo</option>';
+            STR_NAM_E_options_str  += '<option value="Lum I Huk">Lum I Huk</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Khu">Lum Khu</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nong Bua">Lum Nong Bua</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nong Faep">Lum Nong Faep</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nong Kot">Lum Nong Kot</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nong Lai">Lum Nong Lai</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nong Phuk Wan">Lum Nong Phuk Wan</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nong Pling">Lum Nong Pling</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Nuen Phrai">Lum Nuen Phrai</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Pa Dum Nong Ta Kut">Lum Pa Dum Nong Ta Kut</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Phi Khut">Lum Phi Khut</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Rang Ban Rai">Lum Rang Ban Rai</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Rong Ngu Luam">Lum Rong Ngu Luam</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Rong Wat">Lum Rong Wat</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Sa Kaphang Nok">Lum Sa Kaphang Nok</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Thum Yang">Lum Thum Yang</option>';
+            STR_NAM_E_options_str  += '<option value="Lum Tung I Chet">Lum Tung I Chet</option>';
+            STR_NAM_E_options_str  += '<option value="Mae Nam Nan">Mae Nam Nan</option>';
+            STR_NAM_E_options_str  += '<option value="Mae Nam Wang Thong">Mae Nam Wang Thong</option>';
+            STR_NAM_E_options_str  += '<option value="Mae Nam Yom">Mae Nam Yom</option>';
+            STR_NAM_E_options_str  += '<option value="Map Hatsakun">Map Hatsakun</option>';
+            STR_NAM_E_options_str  += '<option value="Map I Dot">Map I Dot</option>';
+            STR_NAM_E_options_str  += '<option value="Map I Pek">Map I Pek</option>';
+            STR_NAM_E_options_str  += '<option value="Map Thong Nam">Map Thong Nam</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Heung Nga">Nam Heung Nga</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Huang">Nam Huang</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Huang Pa Man">Nam Huang Pa Man</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Kham Mun">Nam Kham Mun</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Khek">Nam Khek</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Khu">Nam Khu</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Khung">Nam Khung</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Khwae Noi">Nam Khwae Noi</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Luang">Nam Luang</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Phak">Nam Phak</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Rin">Nam Rin</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Tak">Nam Tak</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Thong">Nam Thong</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Thong Yai">Nam Thong Yai</option>';
+            STR_NAM_E_options_str  += '<option value="Nam Ton">Nam Ton</option>';
+            STR_NAM_E_options_str  += '<option value="Rong Khu">Rong Khu</option>';
+            STR_NAM_E_options_str  += '<option value="U">U</option>';
+            sel_STR_NAM_E.innerHTML = STR_NAM_E_options_str;
+            div_STR_NAM_E.appendChild(sel_STR_NAM_E);
+            var lab_STR_NAM_E = document.createElement('div');
+            lab_STR_NAM_E.innerHTML = 'STR_NAM_E';
+            lab_STR_NAM_E.className = 'filterlabel';
+            div_STR_NAM_E.appendChild(lab_STR_NAM_E);
+            var reset_STR_NAM_E = document.createElement('div');
+            reset_STR_NAM_E.innerHTML = 'clear filter';
+            reset_STR_NAM_E.className = 'filterlabel';
+            reset_STR_NAM_E.onclick = function() {
+                var options = document.getElementById("sel_STR_NAM_E").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_STR_NAM_E.appendChild(reset_STR_NAM_E);
+        resetLabels([layer_amphoe_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_amphoe_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_amphoe_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_amphoe_3]);
+        });
+        </script>
+        <a href="../index.html">Home</a>
+        <a href="../Hobbies.html">my Hobbies😘😘</a>
+        <a href="../contact-me.html">conntact me ,youtube ,google map </a>
+    </body>
+</html>
